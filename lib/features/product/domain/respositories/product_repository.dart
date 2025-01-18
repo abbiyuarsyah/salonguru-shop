@@ -5,7 +5,7 @@ import '../../../../core/utils/execptions.dart';
 import '../../data/models/checkout_model.dart';
 import '../../data/models/checkout_request.dart';
 
-abstract class EnergyRepository {
+abstract class ProductRepository {
   Future<Either<Failure, ProductsModel>> getProducts();
   Future<Either<Failure, CheckoutModel>> doCheckout(
     List<CheckoutRequest> request,
