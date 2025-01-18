@@ -12,6 +12,7 @@ class HttpClientHelper {
     required String endpoint,
     required HttpMethod method,
     Map<String, dynamic>? queryParameters,
+    Object? body,
   }) async {
     final url = Uri.http(
       baseUrl,
@@ -22,7 +23,7 @@ class HttpClientHelper {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
     };
-    final request = await _httpMethod(url, headers, method);
+    final request = await _httpMethod(url, headers, method, body);
 
     return request;
   }
@@ -31,10 +32,11 @@ class HttpClientHelper {
     Uri url,
     Map<String, String> headers,
     HttpMethod method,
+    Object? body,
   ) {
     switch (method) {
       case HttpMethod.post:
-        return http_client.post(url, headers: headers);
+        return http_client.post(url, headers: headers, body: body);
       case HttpMethod.get:
         return http_client.get(url, headers: headers);
       case HttpMethod.put:
