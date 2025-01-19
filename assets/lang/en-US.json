@@ -1,5 +1,8 @@
 {
     "product": "Product",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "done": "Done",
     "salon_guru_shop": "Salon Guru Shop",
     "retry": "Retry",
     "no_data_found": "Data could not be found",
