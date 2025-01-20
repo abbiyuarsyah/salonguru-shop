@@ -10,4 +10,5 @@ abstract class ProductRepository {
   Future<Either<Failure, CheckoutModel>> doCheckout(
     List<CheckoutRequest> request,
   );
+  void addToCart(int productId);
 }

@@ -54,4 +54,9 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(NetworkFailure());
     }
   }
+
+  @override
+  void addToCart(int productId) {
+    // TODO: implement addToCart
+  }
 }

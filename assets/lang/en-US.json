@@ -5,6 +5,7 @@
     "done": "Done",
     "salon_guru_shop": "Salon Guru Shop",
     "retry": "Retry",
+    "stock": "Stock",
     "no_data_found": "Data could not be found",
     "something_went_wrong": "Something went wrong",
     "bad_gateway_error": "Bad Gateway: The server received an invalid response from the upstream server",

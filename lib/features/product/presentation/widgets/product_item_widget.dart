@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:salonguru_shop/features/product/domain/entities/products_entity.dart';
 
@@ -62,7 +63,7 @@ class ProductItemWidget extends StatelessWidget {
                     color: Colors.red,
                   ),
                   const Text(
-                    '1',
+                    '0',
                     style: TextStyle(fontSize: 18),
                   ),
                   IconButton(
@@ -72,9 +73,9 @@ class ProductItemWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const Text(
-                "Stock: 1",
-                style: TextStyle(fontSize: 10),
+              Text(
+                "${tr('stock')}: ${product.quantity}",
+                style: const TextStyle(fontSize: 10),
               )
             ],
           ),

@@ -5,13 +5,13 @@ import 'package:salonguru_shop/features/product/domain/respositories/product_rep
 import '../../../../core/utils/execptions.dart';
 import '../../../../core/utils/use_case.dart';
 
-class GetProducts extends UseCaseNoParam<List<ProductEntity>> {
+class GetProducts extends UseCase<List<ProductEntity>, Object?> {
   GetProducts({required this.repository});
 
   final ProductRepository repository;
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> call() async {
+  Future<Either<Failure, List<ProductEntity>>> call(Object? params) async {
     final result = await repository.getProducts();
 
     return result.fold(

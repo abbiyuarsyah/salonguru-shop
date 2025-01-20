@@ -24,7 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     emit(state.copyWith(getProductStatus: GetProductStatus.loading));
 
-    final result = await getProducts();
+    final result = await getProducts(null);
     result.fold((l) {
       emit(state.copyWith(
         getProductStatus: GetProductStatus.failed,
