@@ -20,7 +20,7 @@ class GetProducts extends UseCaseNoParam<List<ProductEntity>> {
         (r.products ?? [])
             .map(
               (e) => ProductEntity(
-                id: e.id ?? '',
+                id: e.id ?? 0,
                 name: e.name ?? '',
                 quantity: e.quantity ?? 0,
                 description: e.description ?? '',

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:salonguru_shop/features/product/domain/entities/products_entity.dart';
 
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/shared_widget/card_container.dart';
 
 class ProductItemWidget extends StatelessWidget {
-  const ProductItemWidget({super.key});
+  const ProductItemWidget({super.key, required this.product});
+
+  final ProductEntity product;
 
   @override
   Widget build(BuildContext context) {
@@ -17,30 +20,30 @@ class ProductItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(Dimens.medium),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(Dimens.medium),
+            child: Image.network(
+              product.image,
+              fit: BoxFit.fitWidth,
+              width: 60,
             ),
           ),
           const SizedBox(width: Dimens.large),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Sleek Frozen Chair",
-                  style: TextStyle(
+                  product.name,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                  product.description,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),

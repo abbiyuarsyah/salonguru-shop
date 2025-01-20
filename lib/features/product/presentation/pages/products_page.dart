@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:salonguru_shop/core/enums/status.dart';
+import 'package:salonguru_shop/features/product/presentation/bloc/product_bloc.dart';
+import 'package:salonguru_shop/features/product/presentation/bloc/product_state.dart';
 import '../../../../core/constants/dimens.dart';
 import '../widgets/cart_icon_button.dart';
 import '../widgets/product_item_widget.dart';
@@ -19,14 +23,26 @@ class ProductsPage extends StatelessWidget {
         ),
         centerTitle: false,
         actions: const [
-          CartIconButton(itemCount: 3), // Add your cart icon button here
+          CartIconButton(itemCount: 3),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(top: Dimens.large),
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return const ProductItemWidget();
+      body: BlocBuilder<ProductBloc, ProductState>(
+        buildWhen: (previous, next) =>
+            previous.getProductStatus != next.getProductStatus,
+        builder: (context, state) {
+          if (state.getProductStatus == GetProductStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state.getProductStatus == GetProductStatus.loaded) {
+            return ListView.builder(
+              padding: const EdgeInsets.only(top: Dimens.large),
+              itemCount: state.products.length,
+              itemBuilder: (context, index) {
+                return ProductItemWidget(product: state.products[index]);
+              },
+            );
+          }
+
+          return const SizedBox();
         },
       ),
     );

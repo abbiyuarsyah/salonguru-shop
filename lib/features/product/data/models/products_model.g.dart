@@ -21,7 +21,7 @@ Map<String, dynamic> _$ProductsModelToJson(ProductsModel instance) =>
     };
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
-      json['id'] as String?,
+      (json['id'] as num?)?.toInt(),
       json['name'] as String?,
       (json['quantity'] as num?)?.toInt(),
       json['description'] as String?,

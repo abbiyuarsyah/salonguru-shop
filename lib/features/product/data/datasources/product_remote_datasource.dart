@@ -26,7 +26,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
   Future<Either<Failure, ProductsModel>> getProducts() async {
     try {
       final result = await httpClient.request(
-        endpoint: '/products',
+        endpoint: 'prod/products',
         method: HttpMethod.get,
       );
 
@@ -51,7 +51,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
           request.map((product) => product.toJson()).toList();
 
       final result = await httpClient.request(
-        endpoint: '/checkout',
+        endpoint: 'prod/checkout',
         method: HttpMethod.post,
         body: json.encode(checkoutRequest),
       );

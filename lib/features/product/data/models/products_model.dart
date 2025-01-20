@@ -24,7 +24,7 @@ class ProductModel {
     this.image,
   );
 
-  final String? id;
+  final int? id;
   final String? name;
   final int? quantity;
   final String? description;
