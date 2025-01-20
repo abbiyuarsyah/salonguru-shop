@@ -76,6 +76,7 @@ Future<void> init() async {
       getCart: sl(),
       addToCart: sl(),
       removeFromCart: sl(),
+      doCheckout: sl(),
     ),
   );
 

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:salonguru_shop/core/extensions/number_formatter.dart';
+import 'package:salonguru_shop/features/product/domain/entities/checkout_entity.dart';
+import 'package:salonguru_shop/features/product/presentation/widgets/cart_item_widget.dart';
 
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/shared_widget/card_container.dart';
 
 class CheckoutItemWidget extends StatelessWidget {
-  const CheckoutItemWidget({super.key});
+  const CheckoutItemWidget({super.key, required this.item});
+
+  final ItemEntity item;
 
   @override
   Widget build(BuildContext context) {
@@ -18,30 +23,30 @@ class CheckoutItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(Dimens.medium),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(Dimens.medium),
+            child: Image.network(
+              item.image,
+              fit: BoxFit.fitWidth,
+              width: 60,
             ),
           ),
           const SizedBox(width: Dimens.large),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Sleek Frozen Chair",
-                  style: TextStyle(
+                  item.name,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                  item.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),
@@ -57,13 +62,13 @@ class CheckoutItemWidget extends StatelessWidget {
                 "Total",
                 style: TextStyle(fontSize: 14),
               ),
-              const Text(
-                "Quantity: 4",
-                style: TextStyle(fontSize: 12),
+              Text(
+                "Quantity: ${item.quantity}",
+                style: const TextStyle(fontSize: 12),
               ),
-              const Text(
-                "26.45",
-                style: TextStyle(
+              Text(
+                item.totalPrice.toEuroFormat,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

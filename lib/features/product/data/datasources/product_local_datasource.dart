@@ -112,15 +112,4 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
       price: model.price ?? 0,
     );
   }
-
-  ProductModel mapToRemote(ProductLocalModel model) {
-    return ProductModel(
-      model.id,
-      model.name,
-      model.quantity,
-      model.description,
-      model.image,
-      model.price,
-    );
-  }
 }

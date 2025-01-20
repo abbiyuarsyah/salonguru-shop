@@ -35,11 +35,12 @@ Map<String, dynamic> _$CheckouItemModelToJson(CheckouItemModel instance) =>
     };
 
 ItemModel _$ItemModelFromJson(Map<String, dynamic> json) => ItemModel(
-      json['id'] as String?,
+      (json['id'] as num?)?.toInt(),
       json['name'] as String?,
       (json['quantity'] as num?)?.toInt(),
       json['description'] as String?,
       json['image'] as String?,
+      (json['price'] as num?)?.toDouble(),
       (json['total_price'] as num?)?.toDouble(),
     );
 
@@ -49,5 +50,6 @@ Map<String, dynamic> _$ItemModelToJson(ItemModel instance) => <String, dynamic>{
       'quantity': instance.quantity,
       'description': instance.description,
       'image': instance.image,
+      'price': instance.price,
       'total_price': instance.totalPrice,
     };

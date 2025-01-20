@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salonguru_shop/core/enums/status.dart';
+import 'package:salonguru_shop/features/product/domain/entities/checkout_entity.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/add_to_cart.dart';
+import 'package:salonguru_shop/features/product/domain/use_case/do_checkout.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/get_cart.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/get_products.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/remove_from_cart.dart';
@@ -13,26 +15,31 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     required this.getCart,
     required this.addToCart,
     required this.removeFromCart,
+    required this.doCheckout,
   }) : super(
-          const ProductState(
-            products: [],
-            cart: [],
+          ProductState(
+            products: const [],
+            cart: const [],
             getProductStatus: GetProductStatus.init,
             getCartStatus: GetCartStatus.init,
+            checkoutStatus: CheckoutStatus.init,
             errorMessage: '',
             totalItemInCart: 0,
+            checkoutData: CheckoutEntity.empty(),
           ),
         ) {
     on<GetProductsEvent>(_onGetProductsEvent);
     on<GetCartEvent>(_onGetCartEvent);
     on<AddToCartEvent>(_onAddToCartEvent);
     on<RemoveFromCartEvent>(_onRemoveToCartEvent);
+    on<DoCheckoutEvent>(_onDoCheckoutEvent);
   }
 
   final GetProducts getProducts;
   final GetCart getCart;
   final AddToCart addToCart;
   final RemoveFromCart removeFromCart;
+  final DoCheckout doCheckout;
 
   Future<void> _onGetProductsEvent(
     GetProductsEvent event,
@@ -92,5 +99,30 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     await removeFromCart(RemoveFromCartParams(productId: event.productId));
     add(const GetCartEvent());
+  }
+
+  Future<void> _onDoCheckoutEvent(
+    DoCheckoutEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    emit(state.copyWith(checkoutStatus: CheckoutStatus.loading));
+
+    final params = state.cart
+        .map(
+            (e) => CheckoutParams(quantity: e.quantity, productId: e.productId))
+        .toList();
+    final result = await doCheckout(params);
+
+    result.fold((l) {
+      emit(state.copyWith(
+        checkoutStatus: CheckoutStatus.failed,
+        errorMessage: l.message,
+      ));
+    }, (r) {
+      emit(state.copyWith(
+        checkoutStatus: CheckoutStatus.loaded,
+        checkoutData: r,
+      ));
+    });
   }
 }

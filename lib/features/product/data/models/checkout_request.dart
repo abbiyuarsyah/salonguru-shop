@@ -5,7 +5,7 @@ part 'checkout_request.g.dart';
 class CheckoutRequest {
   const CheckoutRequest({required this.quantity, required this.productId});
 
-  final String quantity;
+  final int quantity;
   @JsonKey(name: "product_id")
   final int? productId;
 

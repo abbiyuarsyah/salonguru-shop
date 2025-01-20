@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salonguru_shop/core/enums/status.dart';
 import 'package:salonguru_shop/core/shared_widget/card_container.dart';
+import 'package:salonguru_shop/features/product/presentation/bloc/product_event.dart';
 import 'package:salonguru_shop/features/product/presentation/pages/checkout_page.dart';
 
 import '../../../../core/constants/dimens.dart';
+import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_state.dart';
 import '../widgets/cart_item_widget.dart';
@@ -25,7 +27,20 @@ class CartPage extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: BlocBuilder<ProductBloc, ProductState>(
+      body: BlocConsumer<ProductBloc, ProductState>(
+        listener: (context, state) {
+          // Listen for specific state changes, like checkout success or errors
+          if (state.checkoutStatus == CheckoutStatus.loaded) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CheckoutPage()),
+            );
+          } else if (state.checkoutStatus == CheckoutStatus.failed) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(tr('checkout_failed'))),
+            );
+          }
+        },
         builder: (context, state) {
           if (state.getCartStatus == GetCartStatus.loading) {
             return const Center(child: CircularProgressIndicator());
@@ -50,11 +65,10 @@ class CartPage extends StatelessWidget {
                           height: 40,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const CheckoutPage()),
-                              );
+                              // Dispatch the DoCheckoutEvent
+                              context
+                                  .read<ProductBloc>()
+                                  .add(const DoCheckoutEvent());
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.green,

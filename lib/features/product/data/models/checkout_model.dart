@@ -36,14 +36,16 @@ class ItemModel {
     this.quantity,
     this.description,
     this.image,
+    this.price,
     this.totalPrice,
   );
 
-  final String? id;
+  final int? id;
   final String? name;
   final int? quantity;
   final String? description;
   final String? image;
+  final double? price;
   @JsonKey(name: "total_price")
   final double? totalPrice;
 

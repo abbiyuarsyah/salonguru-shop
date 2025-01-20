@@ -30,11 +30,12 @@ class DoCheckout extends UseCase<CheckoutEntity, List<CheckoutParams>> {
           items: (r.checkout?.items ?? [])
               .map(
                 (e) => ItemEntity(
-                  id: e.id ?? '',
+                  id: e.id ?? 0,
                   name: e.name ?? '',
                   quantity: e.quantity ?? 0,
                   description: e.description ?? '',
                   image: e.image ?? '',
+                  price: e.price ?? 0,
                   totalPrice: e.totalPrice ?? 0,
                 ),
               )
@@ -48,6 +49,6 @@ class DoCheckout extends UseCase<CheckoutEntity, List<CheckoutParams>> {
 class CheckoutParams {
   const CheckoutParams({required this.quantity, required this.productId});
 
-  final String quantity;
+  final int quantity;
   final int productId;
 }

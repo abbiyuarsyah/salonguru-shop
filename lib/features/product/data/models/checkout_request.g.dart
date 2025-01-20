@@ -8,7 +8,7 @@ part of 'checkout_request.dart';
 
 CheckoutRequest _$CheckoutRequestFromJson(Map<String, dynamic> json) =>
     CheckoutRequest(
-      quantity: json['quantity'] as String,
+      quantity: (json['quantity'] as num).toInt(),
       productId: (json['product_id'] as num?)?.toInt(),
     );
 
