@@ -11,6 +11,7 @@ import 'package:salonguru_shop/features/product/domain/use_case/add_to_cart.dart
 import 'package:salonguru_shop/features/product/domain/use_case/do_checkout.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/get_cart.dart';
 import 'package:salonguru_shop/features/product/domain/use_case/get_products.dart';
+import 'package:salonguru_shop/features/product/domain/use_case/remove_from_cart.dart';
 import 'package:salonguru_shop/features/product/presentation/bloc/product_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -66,10 +67,16 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DoCheckout(repository: sl()));
   sl.registerLazySingleton(() => GetCart(repository: sl()));
   sl.registerLazySingleton(() => AddToCart(repository: sl()));
+  sl.registerLazySingleton(() => RemoveFromCart(repository: sl()));
 
   /// Bloc
   sl.registerLazySingleton<ProductBloc>(
-    () => ProductBloc(getProducts: sl(), getCart: sl(), addToCart: sl()),
+    () => ProductBloc(
+      getProducts: sl(),
+      getCart: sl(),
+      addToCart: sl(),
+      removeFromCart: sl(),
+    ),
   );
 
   /// Local Storage

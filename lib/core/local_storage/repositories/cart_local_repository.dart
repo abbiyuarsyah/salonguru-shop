@@ -54,7 +54,12 @@ class CartLocalRepository extends Repository<CartLocalModel> {
 
   @override
   Future<void> deleteEntity(CartLocalModel entity) async {
-    return await _box.delete(entity);
+    final key = _box.keys.firstWhere(
+      (k) => _box.get(k) == entity,
+      orElse: () => null,
+    );
+
+    return await _box.delete(key);
   }
 
   Future<void> open() async {

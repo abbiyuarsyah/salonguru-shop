@@ -9,6 +9,7 @@ import '../../../../core/local_storage/local_storage.dart';
 
 abstract class ProductLocalDatasource {
   Future<void> addToCart(int productId);
+  Future<void> removeFromCart(int productId);
   Future<List<CartLocalModel>> getCart();
   Future<void> addProducts(List<ProductModel> products);
 }
@@ -25,11 +26,11 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
     final products = await localStorage.getProductLocalRepository.getAll()
         as List<ProductLocalModel>;
     final product = products.firstWhere((e) => e.id == productId);
-    final carts = await localStorage.getCartLocalRepository.getAll()
+    final cartList = await localStorage.getCartLocalRepository.getAll()
         as List<CartLocalModel>;
 
     var newData = CartLocalModel.empty();
-    final cart = carts.firstWhereOrNull((e) => e.product.id == productId);
+    final cart = cartList.firstWhereOrNull((e) => e.product.id == productId);
 
     if (cart != null) {
       newData = CartLocalModel(
@@ -48,6 +49,30 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
     }
 
     await localStorage.getCartLocalRepository.add(newData);
+  }
+
+  @override
+  Future<void> removeFromCart(int productId) async {
+    await localStorage.open();
+
+    final cartList = await localStorage.getCartLocalRepository.getAll()
+        as List<CartLocalModel>;
+    final cart = cartList.firstWhereOrNull((e) => e.product.id == productId);
+
+    if (cart != null) {
+      if (cart.quantity == 1) {
+        await localStorage.getCartLocalRepository.deleteEntity(cart);
+      } else {
+        final newData = CartLocalModel(
+          id: cart.id,
+          product: cart.product,
+          totalPrice: cart.totalPrice - cart.product.price,
+          quantity: cart.quantity - 1,
+        );
+
+        await localStorage.getCartLocalRepository.add(newData);
+      }
+    }
   }
 
   @override

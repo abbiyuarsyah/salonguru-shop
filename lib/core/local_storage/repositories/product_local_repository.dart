@@ -54,7 +54,12 @@ class ProductLocalRepository extends Repository<ProductLocalModel> {
 
   @override
   Future<void> deleteEntity(ProductLocalModel entity) async {
-    return await _box.delete(entity);
+    final key = _box.keys.firstWhere(
+      (k) => _box.get(k) == entity,
+      orElse: () => null,
+    );
+
+    return await _box.delete(key);
   }
 
   Future<void> open() async {

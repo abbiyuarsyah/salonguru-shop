@@ -80,4 +80,13 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(UnexpectedFailure());
     }
   }
+
+  @override
+  void removeFromCart(int productId) async {
+    try {
+      localDatasoure.removeFromCart(productId);
+    } catch (_) {
+      throw UnimplementedError();
+    }
+  }
 }

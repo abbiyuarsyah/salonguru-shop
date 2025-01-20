@@ -10,16 +10,18 @@ class GetCartEvent extends ProductEvent {
   const GetCartEvent();
 }
 
-class DoCheckoutEvent extends ProductEvent {
-  const DoCheckoutEvent();
-}
-
 class AddToCartEvent extends ProductEvent {
   const AddToCartEvent({required this.productId});
 
   final int productId;
 }
 
-class CartBadgeEvent extends ProductEvent {
-  const CartBadgeEvent();
+class RemoveFromCartEvent extends ProductEvent {
+  const RemoveFromCartEvent({required this.productId});
+
+  final int productId;
+}
+
+class DoCheckoutEvent extends ProductEvent {
+  const DoCheckoutEvent();
 }

@@ -61,7 +61,11 @@ class CartItemWidget extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      sl<ProductBloc>().add(
+                        RemoveFromCartEvent(productId: cart.productId),
+                      );
+                    },
                     icon: const Icon(Icons.remove),
                     color: Colors.red,
                   ),

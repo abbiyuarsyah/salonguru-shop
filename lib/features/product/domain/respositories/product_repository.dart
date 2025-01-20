@@ -12,5 +12,6 @@ abstract class ProductRepository {
     List<CheckoutRequest> request,
   );
   void addToCart(int productId);
+  void removeFromCart(int productId);
   Future<Either<Failure, List<CartLocalModel>>> getCart();
 }
