@@ -22,9 +22,7 @@ class ProductsPage extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
-        actions: const [
-          CartIconButton(itemCount: 3),
-        ],
+        actions: const [CartIconButton()],
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
         buildWhen: (previous, next) =>

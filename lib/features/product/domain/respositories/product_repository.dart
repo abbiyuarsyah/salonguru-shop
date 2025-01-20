@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:salonguru_shop/core/local_storage/models/cart_local_model.dart';
 import 'package:salonguru_shop/features/product/data/models/products_model.dart';
 
 import '../../../../core/utils/execptions.dart';
@@ -11,4 +12,5 @@ abstract class ProductRepository {
     List<CheckoutRequest> request,
   );
   void addToCart(int productId);
+  Future<Either<Failure, List<CartLocalModel>>> getCart();
 }

@@ -5,6 +5,7 @@ class ProductEntity {
     required this.quantity,
     required this.description,
     required this.image,
+    required this.price,
   });
 
   final int id;
@@ -12,4 +13,5 @@ class ProductEntity {
   final int quantity;
   final String description;
   final String image;
+  final double price;
 }

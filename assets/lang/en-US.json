@@ -1,6 +1,7 @@
 {
     "product": "Product",
     "cart": "Cart",
+    "add_to_cart": "Add To Cart",
     "checkout": "Checkout",
     "done": "Done",
     "salon_guru_shop": "Salon Guru Shop",

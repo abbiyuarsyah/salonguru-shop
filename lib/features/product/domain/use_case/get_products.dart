@@ -25,6 +25,7 @@ class GetProducts extends UseCase<List<ProductEntity>, Object?> {
                 quantity: e.quantity ?? 0,
                 description: e.description ?? '',
                 image: e.image ?? '',
+                price: e.price ?? 0,
               ),
             )
             .toList(),

@@ -1,12 +1,14 @@
 import 'package:hive/hive.dart';
 
+import 'product_local_model.dart';
+
 part 'cart_local_model.g.dart';
 
 @HiveType(typeId: 1)
 class CartLocalModel {
   const CartLocalModel({
     required this.id,
-    required this.productId,
+    required this.product,
     required this.totalPrice,
     required this.quantity,
   });
@@ -17,7 +19,7 @@ class CartLocalModel {
   final int id;
 
   @HiveField(1)
-  final int productId;
+  final ProductLocalModel product;
 
   @HiveField(2)
   final double totalPrice;
@@ -26,9 +28,9 @@ class CartLocalModel {
   final int quantity;
 
   factory CartLocalModel.empty() {
-    return const CartLocalModel(
+    return CartLocalModel(
       id: 0,
-      productId: 0,
+      product: ProductLocalModel.empty(),
       totalPrice: 0,
       quantity: 0,
     );

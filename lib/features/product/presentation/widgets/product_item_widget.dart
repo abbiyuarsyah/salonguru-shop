@@ -1,8 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:salonguru_shop/core/extensions/number_formatter.dart';
 import 'package:salonguru_shop/features/product/domain/entities/products_entity.dart';
+import 'package:salonguru_shop/features/product/presentation/bloc/product_bloc.dart';
+import 'package:salonguru_shop/features/product/presentation/bloc/product_event.dart';
 
 import '../../../../core/constants/dimens.dart';
+import '../../../../core/service_locator/service_locator.dart';
 import '../../../../core/shared_widget/card_container.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -42,10 +45,18 @@ class ProductItemWidget extends StatelessWidget {
                 ),
                 Text(
                   product.description,
-                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
+                  ),
+                ),
+                Text(
+                  product.price.toEuroFormat,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
@@ -55,28 +66,14 @@ class ProductItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.remove),
-                    color: Colors.red,
-                  ),
-                  const Text(
-                    '0',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add),
-                    color: Colors.black,
-                  ),
-                ],
+              IconButton(
+                onPressed: () {
+                  sl<ProductBloc>().add(AddToCartEvent(productId: product.id));
+                  sl<ProductBloc>().add(const GetCartEvent());
+                },
+                icon: const Icon(Icons.add_circle_outline_outlined),
+                color: Colors.green,
               ),
-              Text(
-                "${tr('stock')}: ${product.quantity}",
-                style: const TextStyle(fontSize: 10),
-              )
             ],
           ),
         ],

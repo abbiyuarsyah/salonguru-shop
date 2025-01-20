@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:salonguru_shop/core/extensions/number_formatter.dart';
+import 'package:salonguru_shop/features/product/domain/entities/cart_entity.dart';
 
 import '../../../../core/constants/dimens.dart';
+import '../../../../core/service_locator/service_locator.dart';
 import '../../../../core/shared_widget/card_container.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
 
 class CartItemWidget extends StatelessWidget {
-  const CartItemWidget({super.key});
+  const CartItemWidget({super.key, required this.cart});
+
+  final CartEntity cart;
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +24,34 @@ class CartItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(Dimens.medium),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(Dimens.medium),
+            child: Image.network(
+              cart.product.image,
+              fit: BoxFit.fitWidth,
+              width: 60,
             ),
           ),
           const SizedBox(width: Dimens.large),
-          const Flexible(
-            child: Text(
-              "Practical Frozen Chips",
-              maxLines: 2,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  cart.product.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  cart.price.toEuroFormat,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ),
           Column(
@@ -46,12 +65,16 @@ class CartItemWidget extends StatelessWidget {
                     icon: const Icon(Icons.remove),
                     color: Colors.red,
                   ),
-                  const Text(
-                    '1',
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "${cart.quantity}",
+                    style: const TextStyle(fontSize: 18),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      sl<ProductBloc>().add(
+                        AddToCartEvent(productId: cart.productId),
+                      );
+                    },
                     icon: const Icon(Icons.add),
                     color: Colors.black,
                   ),

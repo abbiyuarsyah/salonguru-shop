@@ -3,15 +3,16 @@ import 'package:salonguru_shop/core/local_storage/models/cart_local_model.dart';
 
 import 'repository.dart';
 
-class CartRepository extends Repository<CartLocalModel> {
-  CartRepository._({required hiveInterface}) : _hiveInterface = hiveInterface;
+class CartLocalRepository extends Repository<CartLocalModel> {
+  CartLocalRepository._({required hiveInterface})
+      : _hiveInterface = hiveInterface;
 
   final HiveInterface _hiveInterface;
   late Box _box;
   bool _initialized = false;
 
-  static Future<CartRepository> create({required hiveInterface}) async {
-    final repo = CartRepository._(hiveInterface: hiveInterface);
+  static Future<CartLocalRepository> create({required hiveInterface}) async {
+    final repo = CartLocalRepository._(hiveInterface: hiveInterface);
 
     await repo.init();
     return repo;
@@ -27,18 +28,6 @@ class CartRepository extends Repository<CartLocalModel> {
   }
 
   @override
-  Future<CartLocalModel> add(CartLocalModel entity) async {
-    await _box.put(entity.id, entity);
-    return Future.value(entity);
-  }
-
-  @override
-  Future<void> delete() async {
-    await _box.clear();
-    return;
-  }
-
-  @override
   Future<List<CartLocalModel>> getAll() async {
     final values = _box.values.toList().cast<CartLocalModel>();
     return values.isEmpty
@@ -46,15 +35,29 @@ class CartRepository extends Repository<CartLocalModel> {
         : Future.value(values);
   }
 
-  Future<void> open() async {
-    _box = await _hiveInterface.openBox(CartLocalModel.boxName);
+  @override
+  Future<CartLocalModel> getEntity(CartLocalModel entity) async {
+    return await _box.get(entity);
   }
 
   @override
-  Future<CartLocalModel> getCart(int productId) async {
-    final values = _box.values.toList().cast<CartLocalModel>();
-    final entity = values.firstWhere((e) => e.productId == productId);
+  Future<CartLocalModel> add(CartLocalModel entity) async {
+    await _box.put(entity.id, entity);
+    return Future.value(entity);
+  }
 
-    return entity;
+  @override
+  Future<void> deleteAll() async {
+    await _box.clear();
+    return;
+  }
+
+  @override
+  Future<void> deleteEntity(CartLocalModel entity) async {
+    return await _box.delete(entity);
+  }
+
+  Future<void> open() async {
+    _box = await _hiveInterface.openBox(CartLocalModel.boxName);
   }
 }

@@ -22,6 +22,7 @@ class ProductModel {
     this.quantity,
     this.description,
     this.image,
+    this.price,
   );
 
   final int? id;
@@ -29,6 +30,7 @@ class ProductModel {
   final int? quantity;
   final String? description;
   final String? image;
+  final double? price;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
