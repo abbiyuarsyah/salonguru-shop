@@ -1,17 +1,20 @@
 import 'dart:math';
 
+import 'package:dartz/dartz.dart';
 import 'package:salonguru_shop/core/local_storage/models/cart_local_model.dart';
 import 'package:salonguru_shop/core/local_storage/models/product_local_model.dart';
 import 'package:salonguru_shop/features/product/data/models/products_model.dart';
 import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 
 import '../../../../core/local_storage/local_storage.dart';
+import '../../../../core/utils/execptions.dart';
 
 abstract class ProductLocalDatasource {
-  Future<void> addToCart(int productId);
+  Future<Either<Failure, bool>> addToCart(int productId);
   Future<void> removeFromCart(int productId);
   Future<List<CartLocalModel>> getCart();
   Future<void> addProducts(List<ProductModel> products);
+  Future<void> removeCart();
 }
 
 class ProductLocalDatasourceImpl implements ProductLocalDatasource {
@@ -20,7 +23,7 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
   final LocalStorage localStorage;
 
   @override
-  Future<void> addToCart(int productId) async {
+  Future<Either<Failure, bool>> addToCart(int productId) async {
     await localStorage.open();
 
     final products = await localStorage.getProductLocalRepository.getAll()
@@ -33,11 +36,16 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
     final cart = cartList.firstWhereOrNull((e) => e.product.id == productId);
 
     if (cart != null) {
+      final quantity = cart.quantity + 1;
+      if (quantity > product.quantity) {
+        return Left(OutOfStockItemFailure());
+      }
+
       newData = CartLocalModel(
         id: cart.id,
         product: product,
         totalPrice: cart.totalPrice + product.price,
-        quantity: cart.quantity + 1,
+        quantity: quantity,
       );
     } else {
       newData = CartLocalModel(
@@ -49,6 +57,7 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
     }
 
     await localStorage.getCartLocalRepository.add(newData);
+    return const Right(true);
   }
 
   @override
@@ -112,5 +121,15 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
       image: model.image ?? '',
       price: model.price ?? 0,
     );
+  }
+
+  @override
+  Future<void> removeCart() async {
+    try {
+      await localStorage.open();
+      await localStorage.getCartLocalRepository.deleteAll();
+    } catch (e) {
+      throw UnimplementedError();
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salonguru_shop/core/enums/status.dart';
 import 'package:salonguru_shop/features/product/domain/entities/checkout_entity.dart';
@@ -23,9 +24,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             getProductStatus: StateStatus.init,
             getCartStatus: StateStatus.init,
             checkoutStatus: StateStatus.init,
+            addToCartStatus: StateStatus.init,
             errorMessage: '',
             totalItemInCart: 0,
             checkoutData: CheckoutEntity.empty(),
+            validateItemFlag: false,
           ),
         ) {
     on<GetProductsEvent>(_onGetProductsEvent);
@@ -33,6 +36,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<AddToCartEvent>(_onAddToCartEvent);
     on<RemoveFromCartEvent>(_onRemoveToCartEvent);
     on<DoCheckoutEvent>(_onDoCheckoutEvent);
+    on<ResetStateEvent>(_onResetStateEvent);
   }
 
   final GetProducts getProducts;
@@ -77,6 +81,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ));
     }, (r) {
       final totalQuantity = r.fold(0, (sum, item) => sum + item.quantity);
+      final isEmpty = r[0].product.name == '';
+
+      if (isEmpty) {
+        emit(
+          state.copyWith(
+            getCartStatus: StateStatus.failed,
+            errorMessage: tr('empty_cart'),
+          ),
+        );
+        return;
+      }
+
       emit(state.copyWith(
         getCartStatus: StateStatus.loaded,
         cart: r,
@@ -89,8 +105,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     AddToCartEvent event,
     Emitter<ProductState> emit,
   ) async {
-    await addToCart(AddToCartParams(productId: event.productId));
-    add(const GetCartEvent());
+    final result = await addToCart(AddToCartParams(productId: event.productId));
+    result.fold((l) {
+      emit(state.copyWith(
+        addToCartStatus: StateStatus.failed,
+        errorMessage: l.message,
+        validateItemFlag: !state.validateItemFlag,
+      ));
+    }, (r) async {
+      add(const GetCartEvent());
+    });
   }
 
   Future<void> _onRemoveToCartEvent(
@@ -118,11 +142,25 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         checkoutStatus: StateStatus.failed,
         errorMessage: l.message,
       ));
-    }, (r) {
+    }, (r) async {
       emit(state.copyWith(
         checkoutStatus: StateStatus.loaded,
         checkoutData: r,
       ));
     });
+  }
+
+  Future<void> _onResetStateEvent(
+    ResetStateEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    emit(state.copyWith(
+      checkoutStatus: StateStatus.init,
+      getProductStatus: StateStatus.init,
+      getCartStatus: StateStatus.init,
+    ));
+
+    add(const GetProductsEvent());
+    add(const GetCartEvent());
   }
 }

@@ -4,10 +4,11 @@
     "add_to_cart": "Add To Cart",
     "checkout": "Checkout",
     "done": "Done",
+    "stock": "Stock",
     "salon_guru_shop": "Salon Guru Shop",
     "retry": "Retry",
-    "stock": "Stock",
-    "no_data_found": "Data could not be found",
+    "empty_cart": "Your cart is empty",
+    "total_price": "Total Price",
     "something_went_wrong": "Something went wrong",
     "bad_gateway_error": "Bad Gateway: The server received an invalid response from the upstream server",
     "unauthorized_error": "Unauthorized: Access is denied due to invalid credentials",
@@ -22,6 +23,6 @@
     "unexpected_error": "Unexpected error, please try again",
     "delete_cache_error": "Something is wrong of deleting local data",
     "network_error": "Something is wrong with the connection",
-    "clear_cache_success": "Cache deleted successfully!",
-    "clear_cache_failed": "Failed to delete cache. Please try again"
+    "add_item": "Product has been added to cart",
+    "out_of_stock": "You have reached the stock limit"
 }

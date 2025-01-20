@@ -31,20 +31,23 @@ class CartIconButton extends StatelessWidget {
                 );
               },
             ),
-            if (state.getProductStatus == StateStatus.loaded &&
+            if ((state.getProductStatus == StateStatus.loaded &&
+                    state.getCartStatus != StateStatus.failed) &&
                 state.totalItemInCart > 0)
               Positioned(
                 right: Dimens.medium,
                 top: Dimens.medium,
                 child: Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(Dimens.extraSmall),
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(
+                      Dimens.medium + Dimens.extraSmall,
+                    ),
                   ),
                   constraints: const BoxConstraints(
-                    minWidth: 18,
-                    minHeight: 18,
+                    minWidth: Dimens.large + Dimens.extraSmall,
+                    minHeight: Dimens.large + Dimens.extraSmall,
                   ),
                   child: Text(
                     '${state.totalItemInCart}',

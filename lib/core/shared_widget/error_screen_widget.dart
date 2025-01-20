@@ -7,11 +7,11 @@ class ErrorScreenWidget extends StatelessWidget {
   const ErrorScreenWidget({
     super.key,
     required this.message,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final String message;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +28,21 @@ class ErrorScreenWidget extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: Dimens.medium),
-            TextButton(
-              onPressed: onPressed,
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Dimens.extraLarge),
+            if (onPressed != null)
+              TextButton(
+                onPressed: onPressed,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(Dimens.extraLarge),
+                  ),
                 ),
-              ),
-              child: Text(
-                tr('retry'),
-                style: const TextStyle(fontSize: 16.0),
-              ),
-            )
+                child: Text(
+                  tr('retry'),
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              )
           ],
         ),
       ),

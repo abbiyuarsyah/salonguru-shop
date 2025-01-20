@@ -51,7 +51,8 @@ class ProductRepositoryImpl implements ProductRepository {
 
         return result.fold((l) {
           return Left(l);
-        }, (r) {
+        }, (r) async {
+          await localDatasoure.removeCart();
           return Right(r);
         });
       } catch (_) {
@@ -63,9 +64,14 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  void addToCart(int productId) {
+  Future<Either<Failure, bool>> addToCart(int productId) async {
     try {
-      localDatasoure.addToCart(productId);
+      final result = await localDatasoure.addToCart(productId);
+      return result.fold((l) {
+        return Left(l);
+      }, (r) {
+        return Right(r);
+      });
     } catch (_) {
       throw UnimplementedError();
     }

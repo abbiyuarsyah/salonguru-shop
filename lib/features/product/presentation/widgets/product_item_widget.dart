@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:salonguru_shop/core/extensions/number_formatter.dart';
 import 'package:salonguru_shop/features/product/domain/entities/products_entity.dart';
@@ -39,10 +40,12 @@ class ProductItemWidget extends StatelessWidget {
               children: [
                 Text(
                   product.name,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(width: Dimens.medium),
                 Text(
                   product.description,
                   overflow: TextOverflow.ellipsis,
@@ -50,18 +53,38 @@ class ProductItemWidget extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
-                Text(
-                  product.price.toEuroFormat,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
+                const SizedBox(width: Dimens.small),
+                Row(
+                  children: [
+                    Text(
+                      product.price.toEuroFormat,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: Dimens.medium),
+                    const Text(
+                      "|",
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(width: Dimens.medium),
+                    Text(
+                      "${tr('stock')}: ${product.quantity}",
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    )
+                  ],
                 ),
+                const SizedBox(width: Dimens.medium),
               ],
             ),
           ),
+          const SizedBox(width: Dimens.large),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

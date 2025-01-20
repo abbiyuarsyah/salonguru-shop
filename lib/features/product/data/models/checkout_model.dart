@@ -3,9 +3,10 @@ part 'checkout_model.g.dart';
 
 @JsonSerializable()
 class CheckoutModel {
-  const CheckoutModel(this.statusCode, this.checkout);
+  const CheckoutModel(this.statusCode, this.message, this.checkout);
 
   final int? statusCode;
+  final String? message;
   final CheckouItemModel? checkout;
 
   factory CheckoutModel.fromJson(Map<String, dynamic> json) =>

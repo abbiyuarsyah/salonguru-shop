@@ -7,7 +7,7 @@ import 'package:salonguru_shop/features/product/presentation/bloc/product_event.
 import 'package:salonguru_shop/features/product/presentation/pages/checkout_page.dart';
 
 import '../../../../core/constants/dimens.dart';
-import '../../../../core/service_locator/service_locator.dart';
+import '../../../../core/shared_widget/error_screen_widget.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_state.dart';
 import '../widgets/cart_item_widget.dart';
@@ -20,31 +20,36 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.green,
         title: Text(
           tr('cart'),
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
       ),
       body: BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {
-          // Listen for specific state changes, like checkout success or errors
-          if (state.checkoutStatus == CheckoutStatus.loaded) {
+          if (state.checkoutStatus == StateStatus.loaded) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const CheckoutPage()),
             );
-          } else if (state.checkoutStatus == CheckoutStatus.failed) {
+          } else if (state.checkoutStatus == StateStatus.failed) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(tr('checkout_failed'))),
             );
           }
         },
         builder: (context, state) {
-          if (state.getCartStatus == GetCartStatus.loading) {
+          if (state.getCartStatus == StateStatus.loading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state.getCartStatus == GetCartStatus.loaded) {
+          } else if (state.getCartStatus == StateStatus.loaded) {
             return Stack(
               children: [
                 ListView.builder(
@@ -90,6 +95,8 @@ class CartPage extends StatelessWidget {
                 ),
               ],
             );
+          } else if (state.getCartStatus == StateStatus.failed) {
+            return ErrorScreenWidget(message: state.errorMessage);
           }
           return const SizedBox();
         },

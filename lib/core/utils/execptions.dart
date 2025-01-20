@@ -61,3 +61,7 @@ class UnexpectedFailure extends Failure {
 class DeleteCacheFailure extends Failure {
   DeleteCacheFailure() : super(tr('delete_cache_error'));
 }
+
+class OutOfStockItemFailure extends Failure {
+  OutOfStockItemFailure() : super(tr('out_of_stock'));
+}

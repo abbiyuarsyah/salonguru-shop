@@ -9,6 +9,7 @@ part of 'checkout_model.dart';
 CheckoutModel _$CheckoutModelFromJson(Map<String, dynamic> json) =>
     CheckoutModel(
       (json['statusCode'] as num?)?.toInt(),
+      json['message'] as String?,
       json['checkout'] == null
           ? null
           : CheckouItemModel.fromJson(json['checkout'] as Map<String, dynamic>),
@@ -17,6 +18,7 @@ CheckoutModel _$CheckoutModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CheckoutModelToJson(CheckoutModel instance) =>
     <String, dynamic>{
       'statusCode': instance.statusCode,
+      'message': instance.message,
       'checkout': instance.checkout,
     };
 

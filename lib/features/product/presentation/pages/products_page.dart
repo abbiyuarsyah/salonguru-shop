@@ -32,13 +32,32 @@ class ProductsPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
-        child: BlocBuilder<ProductBloc, ProductState>(
+        child: BlocConsumer<ProductBloc, ProductState>(
+          listenWhen: (previous, current) =>
+              previous.validateItemFlag != current.validateItemFlag,
+          listener: (context, state) {
+            if (state.addToCartStatus == StateStatus.failed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else if (state.addToCartStatus == StateStatus.loaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(tr('add_item')),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          },
           buildWhen: (previous, next) =>
               previous.getProductStatus != next.getProductStatus,
           builder: (context, state) {
-            if (state.getProductStatus == GetProductStatus.loading) {
+            if (state.getProductStatus == StateStatus.loading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state.getProductStatus == GetProductStatus.loaded) {
+            } else if (state.getProductStatus == StateStatus.loaded) {
               return ListView.builder(
                 padding: const EdgeInsets.only(top: Dimens.large),
                 itemCount: state.products.length,
@@ -46,7 +65,7 @@ class ProductsPage extends StatelessWidget {
                   return ProductItemWidget(product: state.products[index]);
                 },
               );
-            } else if (state.getProductStatus == GetProductStatus.failed) {
+            } else if (state.getProductStatus == StateStatus.failed) {
               return ErrorScreenWidget(
                 message: state.errorMessage,
                 onPressed: () {

@@ -25,3 +25,7 @@ class RemoveFromCartEvent extends ProductEvent {
 class DoCheckoutEvent extends ProductEvent {
   const DoCheckoutEvent();
 }
+
+class ResetStateEvent extends ProductEvent {
+  const ResetStateEvent();
+}

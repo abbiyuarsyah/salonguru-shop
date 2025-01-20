@@ -31,7 +31,12 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       );
 
       if (result.statusCode == 200) {
-        return Right(ProductsModel.fromJson(json.decode(result.body)));
+        final response = ProductsModel.fromJson(json.decode(result.body));
+
+        if (response.statusCode == 200) {
+          return Right(response);
+        }
+        return Left(UnexpectedFailure());
       } else {
         /// Map the HTTP Error to Failure Objects
         /// It's needed to return the error messages
@@ -57,7 +62,12 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       );
 
       if (result.statusCode == 200) {
-        return Right(CheckoutModel.fromJson(json.decode(result.body)));
+        final response = CheckoutModel.fromJson(json.decode(result.body));
+
+        if (response.statusCode == 200) {
+          return Right(response);
+        }
+        return Left(result.statusCode.httpErrorToFailure);
       } else {
         /// Map the HTTP Error to Failure Objects
         /// It's needed to return the error messages
