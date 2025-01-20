@@ -20,9 +20,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           ProductState(
             products: const [],
             cart: const [],
-            getProductStatus: GetProductStatus.init,
-            getCartStatus: GetCartStatus.init,
-            checkoutStatus: CheckoutStatus.init,
+            getProductStatus: StateStatus.init,
+            getCartStatus: StateStatus.init,
+            checkoutStatus: StateStatus.init,
             errorMessage: '',
             totalItemInCart: 0,
             checkoutData: CheckoutEntity.empty(),
@@ -45,19 +45,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     GetProductsEvent event,
     Emitter<ProductState> emit,
   ) async {
-    emit(state.copyWith(getProductStatus: GetProductStatus.loading));
+    emit(state.copyWith(getProductStatus: StateStatus.loading));
 
     final result = await getProducts(null);
     result.fold((l) {
       emit(state.copyWith(
-        getProductStatus: GetProductStatus.failed,
+        getProductStatus: StateStatus.failed,
         errorMessage: l.message,
       ));
     }, (r) {
       add(const GetCartEvent());
 
       emit(state.copyWith(
-        getProductStatus: GetProductStatus.loaded,
+        getProductStatus: StateStatus.loaded,
         products: r,
       ));
     });
@@ -67,18 +67,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     GetCartEvent event,
     Emitter<ProductState> emit,
   ) async {
-    emit(state.copyWith(getCartStatus: GetCartStatus.loading));
+    emit(state.copyWith(getCartStatus: StateStatus.loading));
 
     final result = await getCart(null);
     result.fold((l) {
       emit(state.copyWith(
-        getCartStatus: GetCartStatus.failed,
+        getCartStatus: StateStatus.failed,
         errorMessage: l.message,
       ));
     }, (r) {
       final totalQuantity = r.fold(0, (sum, item) => sum + item.quantity);
       emit(state.copyWith(
-        getCartStatus: GetCartStatus.loaded,
+        getCartStatus: StateStatus.loaded,
         cart: r,
         totalItemInCart: totalQuantity,
       ));
@@ -105,7 +105,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     DoCheckoutEvent event,
     Emitter<ProductState> emit,
   ) async {
-    emit(state.copyWith(checkoutStatus: CheckoutStatus.loading));
+    emit(state.copyWith(checkoutStatus: StateStatus.loading));
 
     final params = state.cart
         .map(
@@ -115,12 +115,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     result.fold((l) {
       emit(state.copyWith(
-        checkoutStatus: CheckoutStatus.failed,
+        checkoutStatus: StateStatus.failed,
         errorMessage: l.message,
       ));
     }, (r) {
       emit(state.copyWith(
-        checkoutStatus: CheckoutStatus.loaded,
+        checkoutStatus: StateStatus.loaded,
         checkoutData: r,
       ));
     });

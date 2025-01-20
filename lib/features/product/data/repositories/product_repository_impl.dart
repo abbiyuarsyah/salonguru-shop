@@ -22,16 +22,15 @@ class ProductRepositoryImpl implements ProductRepository {
   final ProductLocalDatasource localDatasoure;
 
   @override
-  Future<Either<Failure, CheckoutModel>> doCheckout(
-    List<CheckoutRequest> request,
-  ) async {
+  Future<Either<Failure, ProductsModel>> getProducts() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await datasource.doCheckout(request);
+        final result = await datasource.getProducts();
 
         return result.fold((l) {
           return Left(l);
         }, (r) {
+          localDatasoure.addProducts(r.products ?? []);
           return Right(r);
         });
       } catch (_) {
@@ -43,15 +42,16 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductsModel>> getProducts() async {
+  Future<Either<Failure, CheckoutModel>> doCheckout(
+    List<CheckoutRequest> request,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await datasource.getProducts();
+        final result = await datasource.doCheckout(request);
 
         return result.fold((l) {
           return Left(l);
         }, (r) {
-          localDatasoure.addProducts(r.products ?? []);
           return Right(r);
         });
       } catch (_) {

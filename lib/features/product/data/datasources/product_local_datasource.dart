@@ -92,6 +92,7 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
   Future<void> addProducts(List<ProductModel> products) async {
     try {
       await localStorage.open();
+      await localStorage.getProductLocalRepository.deleteAll();
 
       for (int i = 0; i < products.length; i++) {
         final result = await mapToLocal(products[i]);

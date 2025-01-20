@@ -1,18 +1,4 @@
-enum GetProductStatus {
-  init,
-  loading,
-  loaded,
-  failed,
-}
-
-enum GetCartStatus {
-  init,
-  loading,
-  loaded,
-  failed,
-}
-
-enum CheckoutStatus {
+enum StateStatus {
   init,
   loading,
   loaded,
