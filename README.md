@@ -1,6 +1,6 @@
 # Salonguru Shop
 
-The Salonguru Shop App is a Flutter-based proof-of-concept application designed to complement the hairdressers and beauty salon software. It demonstrates the integration of a shopping feature that allows users to browse products, add them to a shopping cart, and make purchases.
+The Salonguru Shop App is a Flutter-based proof-of-concept application. It demonstrates the integration of a shopping feature that allows users to browse products, add them to a shopping cart, and make purchases.
 
 https://github.com/user-attachments/assets/df626b8e-a921-478a-84f4-988235c70070
 
