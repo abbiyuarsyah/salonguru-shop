@@ -8,6 +8,7 @@ import 'package:salonguru_shop/features/product/presentation/bloc/product_event.
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../../../../core/shared_widget/card_container.dart';
+import '../../../../core/shared_widget/image_network_widget.dart';
 import 'product_detail_bottom_sheet.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -30,14 +31,7 @@ class ProductItemWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(Dimens.medium),
-              child: Image.network(
-                product.image,
-                fit: BoxFit.fitWidth,
-                width: 60,
-              ),
-            ),
+            ImageNetworkWidget(url: product.image),
             const SizedBox(width: Dimens.large),
             Expanded(
               child: Column(

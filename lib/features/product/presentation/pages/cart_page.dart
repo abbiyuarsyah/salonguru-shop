@@ -71,7 +71,6 @@ class CartPage extends StatelessWidget {
                           height: 40,
                           child: TextButton(
                             onPressed: () {
-                              // Dispatch the DoCheckoutEvent
                               context
                                   .read<ProductBloc>()
                                   .add(const DoCheckoutEvent());

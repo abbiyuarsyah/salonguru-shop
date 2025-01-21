@@ -4,6 +4,7 @@ import 'package:salonguru_shop/features/product/domain/entities/checkout_entity.
 
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/shared_widget/card_container.dart';
+import '../../../../core/shared_widget/image_network_widget.dart';
 
 class CheckoutItemWidget extends StatelessWidget {
   const CheckoutItemWidget({super.key, required this.productItem});
@@ -22,14 +23,7 @@ class CheckoutItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.medium),
-            child: Image.network(
-              productItem.image,
-              fit: BoxFit.fitWidth,
-              width: 60,
-            ),
-          ),
+          ImageNetworkWidget(url: productItem.image),
           const SizedBox(width: Dimens.large),
           Expanded(
             child: Column(

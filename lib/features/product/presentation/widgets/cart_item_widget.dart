@@ -5,6 +5,7 @@ import 'package:salonguru_shop/features/product/domain/entities/cart_entity.dart
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../../../../core/shared_widget/card_container.dart';
+import '../../../../core/shared_widget/image_network_widget.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
 
@@ -24,14 +25,7 @@ class CartItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.medium),
-            child: Image.network(
-              cart.product.image,
-              fit: BoxFit.fitWidth,
-              width: 60,
-            ),
-          ),
+          ImageNetworkWidget(url: cart.product.image),
           const SizedBox(width: Dimens.large),
           Expanded(
             child: Column(
