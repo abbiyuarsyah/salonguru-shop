@@ -29,6 +29,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             totalItemInCart: 0,
             checkoutData: CheckoutEntity.empty(),
             validateItemFlag: false,
+            checkoutFlag: false,
           ),
         ) {
     on<GetProductsEvent>(_onGetProductsEvent);
@@ -141,11 +142,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(
         checkoutStatus: StateStatus.failed,
         errorMessage: l.message,
+        checkoutFlag: !state.checkoutFlag,
       ));
     }, (r) async {
       emit(state.copyWith(
         checkoutStatus: StateStatus.loaded,
         checkoutData: r,
+        checkoutFlag: !state.checkoutFlag,
       ));
     });
   }

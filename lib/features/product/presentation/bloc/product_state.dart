@@ -16,6 +16,7 @@ class ProductState extends Equatable {
     required this.addToCartStatus,
     required this.errorMessage,
     required this.validateItemFlag,
+    required this.checkoutFlag,
     required this.totalItemInCart,
   });
 
@@ -27,6 +28,7 @@ class ProductState extends Equatable {
   final StateStatus checkoutStatus;
   final StateStatus addToCartStatus;
   final bool validateItemFlag;
+  final bool checkoutFlag;
   final int totalItemInCart;
   final String errorMessage;
 
@@ -39,6 +41,7 @@ class ProductState extends Equatable {
     StateStatus? checkoutStatus,
     StateStatus? addToCartStatus,
     bool? validateItemFlag,
+    bool? checkoutFlag,
     String? errorMessage,
     int? totalItemInCart,
   }) {
@@ -50,6 +53,7 @@ class ProductState extends Equatable {
       checkoutStatus: checkoutStatus ?? this.checkoutStatus,
       getCartStatus: getCartStatus ?? this.getCartStatus,
       validateItemFlag: validateItemFlag ?? this.validateItemFlag,
+      checkoutFlag: checkoutFlag ?? this.checkoutFlag,
       addToCartStatus: addToCartStatus ?? this.addToCartStatus,
       errorMessage: errorMessage ?? this.errorMessage,
       totalItemInCart: totalItemInCart ?? this.totalItemInCart,
@@ -65,6 +69,7 @@ class ProductState extends Equatable {
         checkoutStatus,
         getCartStatus,
         validateItemFlag,
+        checkoutFlag,
         addToCartStatus,
         errorMessage,
         totalItemInCart,

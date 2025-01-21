@@ -39,7 +39,12 @@ class ProductsPage extends StatelessWidget {
             if (state.addToCartStatus == StateStatus.failed) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.errorMessage),
+                  content: Text(
+                    state.errorMessage,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   backgroundColor: Colors.red,
                 ),
               );

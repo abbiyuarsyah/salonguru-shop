@@ -34,6 +34,8 @@ class CartPage extends StatelessWidget {
         centerTitle: false,
       ),
       body: BlocConsumer<ProductBloc, ProductState>(
+        listenWhen: (previous, current) =>
+            previous.checkoutFlag != current.checkoutFlag,
         listener: (context, state) {
           if (state.checkoutStatus == StateStatus.loaded) {
             Navigator.push(
@@ -42,7 +44,15 @@ class CartPage extends StatelessWidget {
             );
           } else if (state.checkoutStatus == StateStatus.failed) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(tr('checkout_failed'))),
+              SnackBar(
+                content: Text(
+                  state.errorMessage,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },

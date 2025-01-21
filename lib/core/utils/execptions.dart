@@ -58,10 +58,10 @@ class UnexpectedFailure extends Failure {
   UnexpectedFailure() : super(tr('unexpected_error'));
 }
 
-class DeleteCacheFailure extends Failure {
-  DeleteCacheFailure() : super(tr('delete_cache_error'));
-}
-
 class OutOfStockItemFailure extends Failure {
   OutOfStockItemFailure() : super(tr('out_of_stock'));
+}
+
+class APIFailure extends Failure {
+  APIFailure([String? message]) : super(message ?? tr('unexpected_error'));
 }

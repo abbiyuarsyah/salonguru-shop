@@ -14,7 +14,7 @@ class RemoveFromCart extends UseCase<void, RemoveFromCartParams> {
     try {
       return Right(repository.removeFromCart(params.productId));
     } catch (_) {
-      return Left(DeleteCacheFailure());
+      return Left(UnexpectedFailure());
     }
   }
 }

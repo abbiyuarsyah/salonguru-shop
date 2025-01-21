@@ -67,7 +67,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
         if (response.statusCode == 200) {
           return Right(response);
         }
-        return Left(result.statusCode.httpErrorToFailure);
+        return Left(APIFailure(response.message));
       } else {
         /// Map the HTTP Error to Failure Objects
         /// It's needed to return the error messages
