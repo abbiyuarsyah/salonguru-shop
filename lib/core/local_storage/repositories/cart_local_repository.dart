@@ -36,11 +36,6 @@ class CartLocalRepository extends Repository<CartLocalModel> {
   }
 
   @override
-  Future<CartLocalModel> getEntity(CartLocalModel entity) async {
-    return await _box.get(entity);
-  }
-
-  @override
   Future<CartLocalModel> add(CartLocalModel entity) async {
     await _box.put(entity.id, entity);
     return Future.value(entity);

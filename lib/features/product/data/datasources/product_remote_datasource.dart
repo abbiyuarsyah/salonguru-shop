@@ -33,6 +33,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       if (result.statusCode == 200) {
         final response = ProductsModel.fromJson(json.decode(result.body));
 
+        /// Verify the API’s status code rather than relying on the HTTP response code.
         if (response.statusCode == 200) {
           return Right(response);
         }
@@ -61,6 +62,7 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
         body: json.encode(checkoutRequest),
       );
 
+      /// Verify the API’s status code rather than relying on the HTTP response code.
       if (result.statusCode == 200) {
         final response = CheckoutModel.fromJson(json.decode(result.body));
 

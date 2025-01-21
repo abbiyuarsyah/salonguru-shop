@@ -21,7 +21,6 @@ class DoCheckout extends UseCase<CheckoutEntity, List<CheckoutParams>> {
         )
         .toList();
     final result = await repository.doCheckout(request);
-
     return result.fold(
       (l) => Left(l),
       (r) => Right(

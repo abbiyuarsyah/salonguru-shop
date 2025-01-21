@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salonguru_shop/core/enums/status.dart';
+import 'package:salonguru_shop/core/shared_widget/app_bar_generic.dart';
 import 'package:salonguru_shop/core/shared_widget/error_screen_widget.dart';
 import 'package:salonguru_shop/features/product/presentation/bloc/product_bloc.dart';
 import 'package:salonguru_shop/features/product/presentation/bloc/product_state.dart';
@@ -18,15 +19,8 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(
-          tr('product'),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+      appBar: AppBarGeneric(
+        title: tr('product'),
         centerTitle: false,
         actions: const [CartIconButton()],
       ),

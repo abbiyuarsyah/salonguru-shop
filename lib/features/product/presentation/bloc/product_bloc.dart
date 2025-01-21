@@ -60,11 +60,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ));
     }, (r) {
       add(const GetCartEvent());
-
-      emit(state.copyWith(
-        getProductStatus: StateStatus.loaded,
-        products: r,
-      ));
+      emit(state.copyWith(getProductStatus: StateStatus.loaded, products: r));
     });
   }
 
@@ -82,15 +78,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ));
     }, (r) {
       final totalQuantity = r.fold(0, (sum, item) => sum + item.quantity);
-      final isEmpty = r[0].product.name == '';
+      final isEmptyCart = r[0].product.name.trim() == '';
 
-      if (isEmpty) {
-        emit(
-          state.copyWith(
-            getCartStatus: StateStatus.failed,
-            errorMessage: tr('empty_cart'),
-          ),
-        );
+      if (isEmptyCart) {
+        emit(state.copyWith(
+          getCartStatus: StateStatus.failed,
+          errorMessage: tr('empty_cart'),
+        ));
         return;
       }
 
@@ -137,7 +131,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             (e) => CheckoutParams(quantity: e.quantity, productId: e.productId))
         .toList();
     final result = await doCheckout(params);
-
     result.fold((l) {
       emit(state.copyWith(
         checkoutStatus: StateStatus.failed,

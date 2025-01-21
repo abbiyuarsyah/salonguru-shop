@@ -36,11 +36,6 @@ class ProductLocalRepository extends Repository<ProductLocalModel> {
   }
 
   @override
-  Future<ProductLocalModel> getEntity(ProductLocalModel entity) async {
-    return await _box.get(entity);
-  }
-
-  @override
   Future<ProductLocalModel> add(ProductLocalModel entity) async {
     await _box.put(entity.id, entity);
     return Future.value(entity);

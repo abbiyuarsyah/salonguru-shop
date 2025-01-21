@@ -11,8 +11,8 @@ import '../../../../core/utils/execptions.dart';
 
 abstract class ProductLocalDatasource {
   Future<Either<Failure, bool>> addToCart(int productId);
-  Future<void> removeFromCart(int productId);
   Future<List<CartLocalModel>> getCart();
+  Future<void> removeFromCart(int productId);
   Future<void> addProducts(List<ProductModel> products);
   Future<void> removeCart();
 }
@@ -112,6 +112,16 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
     }
   }
 
+  @override
+  Future<void> removeCart() async {
+    try {
+      await localStorage.open();
+      await localStorage.getCartLocalRepository.deleteAll();
+    } catch (e) {
+      throw UnimplementedError();
+    }
+  }
+
   Future<ProductLocalModel> mapToLocal(ProductModel model) async {
     return ProductLocalModel(
       id: model.id ?? 0,
@@ -121,15 +131,5 @@ class ProductLocalDatasourceImpl implements ProductLocalDatasource {
       image: model.image ?? '',
       price: model.price ?? 0,
     );
-  }
-
-  @override
-  Future<void> removeCart() async {
-    try {
-      await localStorage.open();
-      await localStorage.getCartLocalRepository.deleteAll();
-    } catch (e) {
-      throw UnimplementedError();
-    }
   }
 }

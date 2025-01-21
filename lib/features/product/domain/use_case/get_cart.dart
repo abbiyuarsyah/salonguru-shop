@@ -14,7 +14,6 @@ class GetCart extends UseCase<List<CartEntity>, Object?> {
   @override
   Future<Either<Failure, List<CartEntity>>> call(Object? params) async {
     final result = await repository.getCart();
-
     return result.fold(
       (l) => Left(l),
       (r) => Right(

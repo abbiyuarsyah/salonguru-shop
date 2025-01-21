@@ -7,6 +7,7 @@ import 'package:salonguru_shop/core/extensions/number_formatter.dart';
 import 'package:salonguru_shop/core/service_locator/service_locator.dart';
 import 'package:salonguru_shop/core/shared_widget/card_container.dart';
 
+import '../../../../core/shared_widget/app_bar_generic.dart';
 import '../../../../core/shared_widget/error_screen_widget.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_event.dart';
@@ -20,15 +21,9 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(
-          tr('checkout'),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+      appBar: AppBarGeneric(
+        title: tr('checkout'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: BlocBuilder<ProductBloc, ProductState>(

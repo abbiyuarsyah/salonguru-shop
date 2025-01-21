@@ -12,7 +12,7 @@ class RemoveFromCart extends UseCase<void, RemoveFromCartParams> {
   @override
   Future<Either<Failure, void>> call(RemoveFromCartParams params) async {
     try {
-      return Right(repository.removeFromCart(params.productId));
+      return Right(await repository.removeFromCart(params.productId));
     } catch (_) {
       return Left(UnexpectedFailure());
     }

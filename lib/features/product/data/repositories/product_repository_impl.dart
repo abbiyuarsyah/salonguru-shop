@@ -73,7 +73,7 @@ class ProductRepositoryImpl implements ProductRepository {
         return Right(r);
       });
     } catch (_) {
-      throw UnimplementedError();
+      return Left(UnexpectedFailure());
     }
   }
 
@@ -88,9 +88,9 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  void removeFromCart(int productId) async {
+  Future<void> removeFromCart(int productId) async {
     try {
-      localDatasoure.removeFromCart(productId);
+      await localDatasoure.removeFromCart(productId);
     } catch (_) {
       throw UnimplementedError();
     }

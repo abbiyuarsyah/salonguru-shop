@@ -13,7 +13,6 @@ class GetProducts extends UseCase<List<ProductEntity>, Object?> {
   @override
   Future<Either<Failure, List<ProductEntity>>> call(Object? params) async {
     final result = await repository.getProducts();
-
     return result.fold(
       (l) => Left(l),
       (r) => Right(

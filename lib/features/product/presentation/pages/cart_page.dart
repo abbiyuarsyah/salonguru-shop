@@ -7,6 +7,7 @@ import 'package:salonguru_shop/features/product/presentation/bloc/product_event.
 import 'package:salonguru_shop/features/product/presentation/pages/checkout_page.dart';
 
 import '../../../../core/constants/dimens.dart';
+import '../../../../core/shared_widget/app_bar_generic.dart';
 import '../../../../core/shared_widget/error_screen_widget.dart';
 import '../bloc/product_bloc.dart';
 import '../bloc/product_state.dart';
@@ -19,18 +20,8 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.green,
-        title: Text(
-          tr('cart'),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+      appBar: AppBarGeneric(
+        title: tr('cart'),
         centerTitle: false,
       ),
       body: BlocConsumer<ProductBloc, ProductState>(
